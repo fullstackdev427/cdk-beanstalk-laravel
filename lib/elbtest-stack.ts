@@ -9,10 +9,11 @@ export class ElbtestStack extends cdk.Stack {
         // Construct an S3 asset from the ZIP located from directory up.
         const elbZipArchive = new s3assets.Asset(this, 'MyElbAppZip', {
             //path: `${__dirname}/../app.zip`,
-            path: `${__dirname}/../laravel-default.zip`,
+            //path: `${__dirname}/../laravel-default.zip`,
+            path: `${__dirname}/../picaroai_up.zip`,
         });
 
-        const appName = 'MyApp';
+        const appName = 'MyApp2';
         const app = new elasticbeanstalk.CfnApplication(this, 'Application', {
             applicationName: appName,
         });
@@ -32,11 +33,11 @@ export class ElbtestStack extends cdk.Stack {
                 // https://stackoverflow.com/a/55033663/6894670
                 value: 'aws-elasticbeanstalk-ec2-role',
             },
-            {
-                namespace: 'aws:autoscaling:launchconfiguration',
-                optionName: 'Document root',
-                value: '/public',
-            },
+            // {
+            //     namespace: 'aws:elasticbeanstalk:environment',
+            //     optionName: 'DocumentRoot',
+            //     value: '/public',
+            // },
         ];
 
         // Create an app version from the S3 asset defined above
@@ -52,7 +53,7 @@ export class ElbtestStack extends cdk.Stack {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const elbEnv = new elasticbeanstalk.CfnEnvironment(this, 'Environment', {
             //environmentName: 'PHP-8-Env',
-            environmentName: 'PHP-74-Env',
+            environmentName: 'PHP-74-Env-MyApp2',
             applicationName: app.applicationName || appName,
             //solutionStackName: '64bit Amazon Linux 2 v3.3.6 running PHP 8.0',
             solutionStackName: '64bit Amazon Linux 2 v3.3.6 running PHP 7.4',
